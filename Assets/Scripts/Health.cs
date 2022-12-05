@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class Health
 {
     public int Value { get; private set; }
@@ -11,19 +13,13 @@ public class Health
         MaxValue = maxValue;
     }
 
-    public void IncreaseValue(int increase)
+    public void Heal(int healValue)
     {
-        if (Value + increase <= MaxValue)
-            Value += increase;
-        else
-            Value = MaxValue;
+        Value = Mathf.Clamp(Value + healValue, MinValue, MaxValue);
     }
 
-    public void DecreaseValue(int decrease)
+    public void Damage(int damageValue)
     {
-        if (Value - decrease >= MinValue)
-            Value -= decrease;
-        else
-            Value = MinValue;
+        Value = Mathf.Clamp(Value - damageValue, MinValue, MaxValue);
     }
 }
