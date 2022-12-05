@@ -8,9 +8,10 @@ public class Healthbar : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private float _animationStep = 0.005f;
     [SerializeField] private GameObject _fill;
-    [SerializeField] private Color _maxHealthColor = new Color(0, 188, 25);
-    [SerializeField] private Color _minHealthColor = new Color(255, 0, 0);
+    [SerializeField] private Color _maxColor = new Color(0, 188, 25);
+    [SerializeField] private Color _minColor = new Color(255, 0, 0);
     [SerializeField] private float _distanseOfFreezedColor = 0.1f;
+    [SerializeField] private float _startValue = 1f;
 
     private Slider _slider;
     private Image _fillImage;
@@ -20,20 +21,20 @@ public class Healthbar : MonoBehaviour
     {
         _slider = GetComponent<Slider>();
         _fillImage = _fill.GetComponent<Image>();
-        _slider.value = _player.GetComponent<Player>().Health;
+        _slider.value = _startValue;
     }
 
     private void OnEnable()
     {
-        _player.HealthChanged += OnHealthChanged;
+        _player.HealthChanged += OnValueChanged;
     }
 
     private void OnDisable()
     {
-        _player.HealthChanged -= OnHealthChanged;
+        _player.HealthChanged -= OnValueChanged;
     }
 
-    private void OnHealthChanged(int value, int maxValue)
+    private void OnValueChanged(int value, int maxValue)
     {
         float newValue = (float)value / maxValue;
 
@@ -50,7 +51,7 @@ public class Healthbar : MonoBehaviour
         while (_slider.value != newValue)
         {
             _slider.value = Mathf.MoveTowards(_slider.value, newValue, _animationStep);
-            _fillImage.color = Color.Lerp(_minHealthColor, _maxHealthColor, _slider.value + _distanseOfFreezedColor);
+            _fillImage.color = Color.Lerp(_minColor, _maxColor, _slider.value + _distanseOfFreezedColor);
 
             yield return delay;
         }
