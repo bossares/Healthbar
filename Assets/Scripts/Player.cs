@@ -21,13 +21,13 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        _health.DecreaseValue(damage);
+        _health.Damage(damage);
         HealthChanged?.Invoke(_health.Value, _health.MaxValue);
     }
 
     public void TakeHeal(int heal)
     {
-        _health.IncreaseValue(heal);
+        _health.Heal(heal);
         HealthChanged?.Invoke(_health.Value, _health.MaxValue);
     }
 }
